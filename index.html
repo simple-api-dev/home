@@ -78,6 +78,7 @@
     <p>Enter your email, type the 6 digit code we send you, and your free API key appears right here.</p>
     <form id="step-email">
       <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+      <input type="text" id="access" placeholder="Access code (private preview)" autocomplete="off" required>
       <button type="submit">Email me a code</button>
     </form>
     <form id="step-code" hidden>
@@ -191,7 +192,7 @@
     e.preventDefault();
     email = $("email").value.trim();
     say("Sending your code...");
-    post("request", { email: email, product_url: PRODUCT }).then(function (r) {
+    post("request?access=" + encodeURIComponent($("access").value.trim()), { email: email, product_url: PRODUCT }).then(function (r) {
       if (!r.ok) { say(problem(r.data), true); return; }
       $("step-email").hidden = true;
       $("step-code").hidden = false;

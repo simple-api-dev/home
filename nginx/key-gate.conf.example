@@ -1,0 +1,4 @@
+# TEMPORARY private-preview gate on keys.simpleapi.dev (/etc/nginx/conf.d/key-gate-map.conf). The real code lives only on the server.
+map $uri $keygate_needs { default 0; ~^/api/keys/request$ 1; }
+map "$keygate_needs|$arg_access" $keygate_blocked { default 0; ~^1\| 1; "1|__CODE__" 0; }
+# snippets/key-gate.conf, included in the keys vhost: if ($keygate_blocked) { return 403 ... }
