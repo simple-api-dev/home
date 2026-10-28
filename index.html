@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SimpleApi - free REST APIs with real auth</title>
+<meta name="description" content="Free hosted REST APIs for tutorials and learning projects: todos, forums and reviews, with real user authentication and persistent data.">
+<style>
+  :root {
+    --bg: #fafaf7; --fg: #1d1f23; --muted: #5d6470; --card: #fff; --line: #e4e4de;
+    --accent: #2457d6; --accent-fg: #fff; --code-bg: #f1f1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a; --fg: #e8e9ec; --muted: #9aa1ad; --card: #1c1f25; --line: #2b2f37;
+      --accent: #7c9cff; --accent-fg: #0d1020; --code-bg: #20242c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 64px 0 40px; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin: 0 0 16px; }
+  h2 { font-size: 1.4rem; margin: 48px 0 16px; }
+  p { margin: 0 0 16px; }
+  .lead { font-size: 1.15rem; color: var(--muted); max-width: 640px; }
+  .btn {
+    display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 600;
+    text-decoration: none; background: var(--accent); color: var(--accent-fg);
+  }
+  .btn.alt { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .card h3 { margin: 0 0 8px; font-size: 1.1rem; }
+  .card p { color: var(--muted); font-size: .95rem; }
+  .card a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .card a:hover { text-decoration: underline; }
+  ul.points { padding-left: 20px; margin: 0 0 16px; }
+  ul.points li { margin-bottom: 6px; }
+  ol.steps { padding-left: 20px; }
+  ol.steps li { margin-bottom: 10px; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+  code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; }
+  pre { background: var(--code-bg); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 0 0 16px; }
+  .try { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-top: 28px; max-width: 560px; }
+  .try h2 { margin: 0 0 4px; font-size: 1.15rem; }
+  .try p { color: var(--muted); font-size: .95rem; margin: 0 0 12px; }
+  .try form { display: flex; flex-wrap: wrap; gap: 8px; }
+  .try input { flex: 1 1 200px; padding: 10px 12px; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  .try button { padding: 10px 18px; font: inherit; font-weight: 600; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-fg); cursor: pointer; }
+  .try button.plain { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .try .msg { margin: 10px 0 0; font-size: .9rem; color: var(--muted); }
+  .try .msg.err { color: #c0392b; }
+  .try .keybox { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .try .keybox code { flex: 1 1 260px; padding: 10px 12px; word-break: break-all; }
+  .try a { color: var(--accent); }
+  [hidden] { display: none !important; }
+  footer { margin: 64px 0 32px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>A real backend for your tutorials and practice projects.</h1>
+  <p class="lead">
+    SimpleApi is a set of free, hosted REST APIs with real user registration and login and
+    data that persists. Learn a front-end framework against an actual API, without setting up a
+    server or a Firebase account.
+  </p>
+  <div class="try" id="try">
+    <h2>Try the Todos API in under a minute</h2>
+    <p>Enter your email, type the 6 digit code we send you, and your free API key appears right here.</p>
+    <form id="step-email">
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+      <button type="submit">Email me a code</button>
+    </form>
+    <form id="step-code" hidden>
+      <input type="text" id="code" placeholder="6 digit code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <button type="submit">Show my key</button>
+      <button type="button" class="plain" id="back">Back</button>
+    </form>
+    <div id="step-key" hidden>
+      <div class="keybox"><code id="key"></code><button type="button" id="copy">Copy</button></div>
+      <pre id="example"></pre>
+      <p>That's it. Next: <a href="https://todos.simpleapi.dev/api/documentation">read the Todos docs</a>, or
+        <a href="https://keys.simpleapi.dev">get keys for the other APIs and manage them</a>.</p>
+    </div>
+    <p class="msg" id="msg" role="status"></p>
+  </div>
+  <div class="actions">
+    <a class="btn alt" href="#apis">Browse the APIs</a>
+    <a class="btn alt" href="https://github.com/simple-api-dev">GitHub</a>
+  </div>
+</header>
+
+<section>
+  <h2>Why it exists</h2>
+  <p>
+    Most "todo app" tutorials either have no backend at all or lean on a vendor SDK, so they never
+    show how login, tokens and per-user data work. SimpleApi gives you plain REST endpoints you can
+    call from any language or framework, with the authentication part included.
+  </p>
+  <ul class="points">
+    <li><strong>Plain REST and JSON.</strong> No SDK or vendor account needed. Use fetch, axios, curl, or whatever you are learning.</li>
+    <li><strong>Real authentication.</strong> Your app's users can register, log in and log out, and each gets a token.</li>
+    <li><strong>Your own data.</strong> Everything you create is scoped to your API key, so other developers do not see it.</li>
+    <li><strong>Documented.</strong> Every API has interactive Swagger docs and a Postman collection.</li>
+  </ul>
+</section>
+
+<section id="apis">
+  <h2>The APIs</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Todos</h3>
+      <p>Users and todo items. The classic tutorial project with sign-up, login and a private list per user.</p>
+      <a href="https://todos.simpleapi.dev/api/documentation">Todos API docs &rarr;</a><br>
+      <a href="https://github.com/simple-api-dev/todos">Source on GitHub &rarr;</a>
+    </div>
+    <div class="card">
+      <h3>Forums</h3>
+      <p>A Reddit-style backend: forums, topics, comments, votes, tags, rules, moderators and reports.</p>
+      <a href="https://forums.simpleapi.dev/api/documentation">Forums API docs &rarr;</a><br>
+      <a href="https://github.com/simple-api-dev/forums-client-livewire">Sample app on GitHub &rarr;</a>
+    </div>
+    <div class="card">
+      <h3>Reviews</h3>
+      <p>Reviews and comments for any product or page. Good for rating widgets and comment sections.</p>
+      <a href="https://reviews.simpleapi.dev/api/documentation">Reviews API docs &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <h2>After your first key</h2>
+  <ol class="steps">
+    <li>Send the key with every request, as an <code>APIKEY</code> header or an <code>apikey</code> parameter.</li>
+    <li>Let your own users register and log in through the API. You get back a user token to send on later requests.</li>
+    <li>Need a key for another API, or want to turn one off? Use the <a href="https://keys.simpleapi.dev">key manager</a>. Each key works only for the API it was issued for.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Good to know</h2>
+  <ul class="points">
+    <li>The free tier has limits. For example, Todos allows 100 todos per developer key and 25 per user.</li>
+    <li>This is a hobby-scale service meant for learning, so do not use it for production data or anything sensitive.</li>
+    <li>Each API's docs page has the full list of endpoints, and you can try calls right from the page.</li>
+  </ul>
+</section>
+
+<footer>
+  SimpleApi &middot;
+  <a href="https://todos.simpleapi.dev/api/documentation">Todos</a> &middot;
+  <a href="https://forums.simpleapi.dev/api/documentation">Forums</a> &middot;
+  <a href="https://reviews.simpleapi.dev/api/documentation">Reviews</a> &middot;
+  <a href="https://github.com/simple-api-dev">GitHub</a>
+</footer>
+
+</div>
+<script>
+(function () {
+  var KEYS = "https://keys.simpleapi.dev/api/keys/";
+  var PRODUCT = "https://todos.simpleapi.dev";
+  var $ = function (id) { return document.getElementById(id); };
+  var msg = $("msg"), email = "";
+
+  function say(text, bad) { msg.textContent = text || ""; msg.className = "msg" + (bad ? " err" : ""); }
+  function post(path, body) {
+    return fetch(KEYS + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, data: d }; });
+    });
+  }
+  function problem(d) {
+    if (d && d.message) { return d.message; }
+    var first = d && Object.keys(d)[0];
+    return (first && d[first][0]) || "Something went wrong. Please try again.";
+  }
+
+  $("step-email").addEventListener("submit", function (e) {
+    e.preventDefault();
+    email = $("email").value.trim();
+    say("Sending your code...");
+    post("request", { email: email, product_url: PRODUCT }).then(function (r) {
+      if (!r.ok) { say(problem(r.data), true); return; }
+      $("step-email").hidden = true;
+      $("step-code").hidden = false;
+      $("code").focus();
+      say("Check your inbox (and junk) for the code sent to " + email + ".");
+    }).catch(function () { say("Could not reach the key service. Please try again.", true); });
+  });
+
+  $("back").addEventListener("click", function () {
+    $("step-code").hidden = true;
+    $("step-email").hidden = false;
+    say("");
+  });
+
+  $("step-code").addEventListener("submit", function (e) {
+    e.preventDefault();
+    say("Checking your code...");
+    post("verify", { email: email, product_url: PRODUCT, code: $("code").value.trim() }).then(function (r) {
+      if (!r.ok || !r.data.apikey) { say(problem(r.data), true); return; }
+      $("key").textContent = r.data.apikey;
+      $("example").textContent = "curl " + PRODUCT + "/api/todos \\\n  -H \"APIKEY: " + r.data.apikey + "\"";
+      $("step-code").hidden = true;
+      $("step-key").hidden = false;
+      say(r.data.message || "");
+    }).catch(function () { say("Could not reach the key service. Please try again.", true); });
+  });
+
+  $("copy").addEventListener("click", function () {
+    var text = $("key").textContent;
+    var done = function () { $("copy").textContent = "Copied"; setTimeout(function () { $("copy").textContent = "Copy"; }, 1500); };
+    if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done, function () {}); }
+  });
+})();
+</script>
+</body>
+</html>

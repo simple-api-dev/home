@@ -1,0 +1,25 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name simpleapi.dev www.simpleapi.dev;
+    include snippets/no-probes.conf;
+
+    root /var/www/simpleapi/home/public;
+    index index.html;
+    location / { try_files $uri $uri/ =404; }
+
+    ssl_certificate /etc/letsencrypt/live/simpleapi.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/simpleapi.dev/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name simpleapi.dev www.simpleapi.dev;
+    include snippets/no-probes.conf;
+
+    location /.well-known/acme-challenge/ { root /var/www/simpleapi/home/public; }
+    location / { return 301 https://$host$request_uri; }
+}
