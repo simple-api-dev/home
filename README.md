@@ -10,8 +10,8 @@ Static welcome page for https://simpleapi.dev and https://www.simpleapi.dev. One
 The page is served from `/var/www/simpleapi/home/public/index.html` on the production server.
 
 ```
-scp index.html admin@fluik.com:/tmp/simpleapi-home-index.html
-ssh admin@fluik.com 'sudo install -o root -g www-data -m 644 /tmp/simpleapi-home-index.html /var/www/simpleapi/home/public/index.html'
+scp index.html <user>@<server>:/tmp/simpleapi-home-index.html
+ssh <user>@<server> 'sudo install -o root -g www-data -m 644 /tmp/simpleapi-home-index.html /var/www/simpleapi/home/public/index.html'
 ```
 
 The certificate is the certbot cert named `simpleapi.dev` (covers `simpleapi.dev` and `www.simpleapi.dev`) and renews automatically.
