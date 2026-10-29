@@ -141,7 +141,7 @@
 <section id="start">
   <h2>After your first key</h2>
   <ol class="steps">
-    <li>Send the key with every request, as an <code>APIKEY</code> header or an <code>apikey</code> parameter.</li>
+    <li>Send the key with every request as the <code>apikey</code> parameter. Forums also accepts it as an <code>APIKEY</code> header.</li>
     <li>Let your own users register and log in through the API. You get back a user token to send on later requests.</li>
     <li>Need a key for another API, or want to turn one off? Use the <a href="https://keys.simpleapi.dev">key manager</a>. Each key works only for the API it was issued for.</li>
   </ol>
@@ -213,7 +213,7 @@
     post("verify", { email: email, product_url: PRODUCT, code: $("code").value.trim() }).then(function (r) {
       if (!r.ok || !r.data.apikey) { say(problem(r.data), true); return; }
       $("key").textContent = r.data.apikey;
-      $("example").textContent = "curl " + PRODUCT + "/api/todos \\\n  -H \"APIKEY: " + r.data.apikey + "\"";
+      $("example").textContent = "curl \"" + PRODUCT + "/api/todos?apikey=" + r.data.apikey + "\"";
       $("step-code").hidden = true;
       $("step-key").hidden = false;
       say(r.data.message || "");
