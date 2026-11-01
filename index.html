@@ -65,6 +65,8 @@
   .try h2 { margin: 0 0 4px; font-size: 1.15rem; }
   .try p { color: var(--muted); font-size: .95rem; margin: 0 0 12px; }
   .try form { display: flex; flex-wrap: wrap; gap: 8px; }
+  .try .g-recaptcha { flex: 1 1 100%; }
+  @media (max-width: 380px) { .try .g-recaptcha { transform: scale(.85); transform-origin: 0 0; height: 66px; } }
   .try input { flex: 1 1 200px; padding: 10px 12px; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
   .try button { padding: 10px 18px; font: inherit; font-weight: 600; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-fg); cursor: pointer; }
   .try button:hover { background: var(--accent-hover); }
@@ -96,8 +98,7 @@
     <p>Enter your email, type the 6 digit code we send you, and your free API key appears right here.</p>
     <form id="step-email">
       <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
-      <!-- ACCESS-GATE (temporary, private preview): remove this input, the ACCESS-GATE lines in the script and the 403 check when the captcha returns -->
-      <input type="text" id="access" placeholder="Access code (private preview)" autocomplete="off" required>
+      <div class="g-recaptcha" data-sitekey="6LeOiAouAAAAALsedZWt4li_kZWwUiP28cbED63b"></div>
       <button type="submit">Email me a code</button>
     </form>
     <form id="step-code" hidden>
@@ -148,8 +149,8 @@
       <h3>Forums</h3>
       <p>A Reddit-style backend: forums, topics, comments, votes, tags, rules, moderators and reports.</p>
       <a href="https://forums.simpleapi.dev/docs">Forums API docs &rarr;</a><br>
-      <a href="https://simple-api-dev.github.io/forums-client-flutter/">Live demo &rarr;</a><br>
-      <a href="https://github.com/simple-api-dev/forums-client-flutter">Demo source on GitHub &rarr;</a>
+      <a href="https://simple-api-dev.github.io/forums-client/">Live demo &rarr;</a><br>
+      <a href="https://github.com/simple-api-dev/forums-client">Demo source on GitHub &rarr;</a>
     </div>
     <div class="card">
       <h3>Reviews</h3>
@@ -204,6 +205,7 @@
 </footer>
 
 </div>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
 (function () {
   var KEYS = "https://keys.simpleapi.dev/api/keys/";
@@ -230,18 +232,20 @@
   $("step-email").addEventListener("submit", function (e) {
     e.preventDefault();
     email = $("email").value.trim();
+    var captcha = window.grecaptcha ? grecaptcha.getResponse() : "";
+    if (!captcha) { say("Please tick the box to show you are not a robot.", true); return; }
     say("Sending your code...");
-    post("request?access=" + encodeURIComponent($("access").value.trim()), { /* ACCESS-GATE */ email: email, product_url: PRODUCT }).then(function (r) {
-      if (r.status === 403 && !(r.data && r.data.message)) { say("That access code was not accepted. Check it and try again.", true); return; } /* ACCESS-GATE */
-      if (!r.ok) { say(problem(r.data), true); return; }
+    post("request", { email: email, product_url: PRODUCT, captcha: captcha }).then(function (r) {
+      if (!r.ok) { grecaptcha.reset(); say(problem(r.data), true); return; }
       $("step-email").hidden = true;
       $("step-code").hidden = false;
       $("code").focus();
       say("Check your inbox (and junk) for the code sent to " + email + ".");
-    }).catch(function () { say("Could not reach the key service. Please try again.", true); });
+    }).catch(function () { grecaptcha.reset(); say("Could not reach the key service. Please try again.", true); });
   });
 
   $("back").addEventListener("click", function () {
+    grecaptcha.reset();
     $("step-code").hidden = true;
     $("step-email").hidden = false;
     say("");
