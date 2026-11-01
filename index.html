@@ -3,17 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SimpleApi - free REST APIs with real auth</title>
-<meta name="description" content="Free hosted REST APIs for tutorials and learning projects: todos, forums and reviews, with real user authentication and persistent data.">
+<title>SimpleAPI | Free REST APIs for tutorials and practice projects</title>
+<meta name="description" content="Free hosted REST APIs for tutorials and learning projects: Todos, Forums, Reviews and Auth, with real user login and data that persists.">
+<link rel="canonical" href="https://simpleapi.dev/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SimpleAPI">
+<meta property="og:title" content="SimpleAPI | Free REST APIs for tutorials and practice projects">
+<meta property="og:description" content="Free hosted REST APIs for tutorials and learning projects: Todos, Forums, Reviews and Auth, with real user login and data that persists.">
+<meta property="og:url" content="https://simpleapi.dev/">
+<meta property="og:image" content="https://simpleapi.dev/og-image.png">
+<meta name="theme-color" content="#0066cc">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icon-16.png">
+<link rel="apple-touch-icon" href="/icon-180.png">
 <style>
   :root {
     --bg: #fafaf7; --fg: #1d1f23; --muted: #5d6470; --card: #fff; --line: #e4e4de;
-    --accent: #2457d6; --accent-fg: #fff; --code-bg: #f1f1ec;
+    --accent: #0066cc; --accent-hover: #0052a3; --link: #0066cc; --accent-fg: #fff; --code-bg: #f1f1ec;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #14161a; --fg: #e8e9ec; --muted: #9aa1ad; --card: #1c1f25; --line: #2b2f37;
-      --accent: #7c9cff; --accent-fg: #0d1020; --code-bg: #20242c;
+      --link: #6aa9f0; --accent-fg: #fff; --code-bg: #20242c;
     }
   }
   * { box-sizing: border-box; }
@@ -21,6 +33,7 @@
     margin: 0; background: var(--bg); color: var(--fg);
     font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
+  a { color: var(--link); }
   .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
   header { padding: 64px 0 40px; }
   h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin: 0 0 16px; }
@@ -31,13 +44,15 @@
     display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 600;
     text-decoration: none; background: var(--accent); color: var(--accent-fg);
   }
-  .btn.alt { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .btn:hover { background: var(--accent-hover); }
+  .btn.alt { background: transparent; color: var(--link); border: 1px solid var(--link); }
+  .btn.alt:hover { background: var(--code-bg); }
   .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
   .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
   .card h3 { margin: 0 0 8px; font-size: 1.1rem; }
   .card p { color: var(--muted); font-size: .95rem; }
-  .card a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .card a { color: var(--link); font-weight: 600; text-decoration: none; }
   .card a:hover { text-decoration: underline; }
   ul.points { padding-left: 20px; margin: 0 0 16px; }
   ul.points li { margin-bottom: 6px; }
@@ -52,15 +67,18 @@
   .try form { display: flex; flex-wrap: wrap; gap: 8px; }
   .try input { flex: 1 1 200px; padding: 10px 12px; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
   .try button { padding: 10px 18px; font: inherit; font-weight: 600; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-fg); cursor: pointer; }
-  .try button.plain { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .try button:hover { background: var(--accent-hover); }
+  .try button.plain { background: transparent; color: var(--link); border: 1px solid var(--link); }
   .try .msg { margin: 10px 0 0; font-size: .9rem; color: var(--muted); }
-  .try .msg.err { color: #c0392b; }
+  .try .msg.err { color: #b3261e; }
+  @media (prefers-color-scheme: dark) { .try .msg.err { color: #f2877f; } }
   .try .keybox { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .try .keybox code { flex: 1 1 260px; padding: 10px 12px; word-break: break-all; }
-  .try a { color: var(--accent); }
+  .try a { color: var(--link); }
   [hidden] { display: none !important; }
   footer { margin: 64px 0 32px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
-  footer a { color: var(--muted); }
+  footer a { color: var(--muted); display: inline-block; margin-right: 14px; }
+  footer p { margin: 0 0 8px; }
 </style>
 </head>
 <body>
@@ -69,7 +87,7 @@
 <header>
   <h1>A real backend for your tutorials and practice projects.</h1>
   <p class="lead">
-    SimpleApi is a set of free, hosted REST APIs with real user registration and login and
+    SimpleAPI is a set of free, hosted REST APIs with real user registration and login and
     data that persists. Learn a front-end framework against an actual API, without setting up a
     server or a Firebase account.
   </p>
@@ -78,6 +96,7 @@
     <p>Enter your email, type the 6 digit code we send you, and your free API key appears right here.</p>
     <form id="step-email">
       <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+      <!-- ACCESS-GATE (temporary, private preview): remove this input, the ACCESS-GATE lines in the script and the 403 check when the captcha returns -->
       <input type="text" id="access" placeholder="Access code (private preview)" autocomplete="off" required>
       <button type="submit">Email me a code</button>
     </form>
@@ -89,8 +108,8 @@
     <div id="step-key" hidden>
       <div class="keybox"><code id="key"></code><button type="button" id="copy">Copy</button></div>
       <pre id="example"></pre>
-      <p>That's it. Next: <a href="https://todos.simpleapi.dev/api/documentation">read the Todos docs</a>, or
-        <a href="https://keys.simpleapi.dev">get keys for the other APIs and manage them</a>.</p>
+      <p>That's it. Next: <a href="https://todos.simpleapi.dev/docs">read the Todos docs</a>, or
+        <a href="https://keys.simpleapi.dev/manage">get keys for the other APIs and manage them</a>.</p>
     </div>
     <p class="msg" id="msg" role="status"></p>
   </div>
@@ -104,14 +123,14 @@
   <h2>Why it exists</h2>
   <p>
     Most "todo app" tutorials either have no backend at all or lean on a vendor SDK, so they never
-    show how login, tokens and per-user data work. SimpleApi gives you plain REST endpoints you can
+    show how login, tokens and per-user data work. SimpleAPI gives you plain REST endpoints you can
     call from any language or framework, with the authentication part included.
   </p>
   <ul class="points">
     <li><strong>Plain REST and JSON.</strong> No SDK or vendor account needed. Use fetch, axios, curl, or whatever you are learning.</li>
     <li><strong>Real authentication.</strong> Your app's users can register, log in and log out, and each gets a token.</li>
     <li><strong>Your own data.</strong> Everything you create is scoped to your API key, so other developers do not see it.</li>
-    <li><strong>Documented.</strong> Every API has interactive Swagger docs and a Postman collection.</li>
+    <li><strong>Documented.</strong> Every API has interactive Swagger docs where you can try each call.</li>
   </ul>
 </section>
 
@@ -121,28 +140,28 @@
     <div class="card">
       <h3>Todos</h3>
       <p>Users and todo items. The classic tutorial project with sign-up, login and a private list per user.</p>
-      <a href="https://todos.simpleapi.dev/api/documentation">Todos API docs &rarr;</a><br>
+      <a href="https://todos.simpleapi.dev/docs">Todos API docs &rarr;</a><br>
       <a href="https://simple-api-dev.github.io/todos-client/">Live demo &rarr;</a><br>
       <a href="https://github.com/simple-api-dev/todos-client">Demo source on GitHub &rarr;</a>
     </div>
     <div class="card">
       <h3>Forums</h3>
       <p>A Reddit-style backend: forums, topics, comments, votes, tags, rules, moderators and reports.</p>
-      <a href="https://forums.simpleapi.dev/api/documentation">Forums API docs &rarr;</a><br>
+      <a href="https://forums.simpleapi.dev/docs">Forums API docs &rarr;</a><br>
       <a href="https://simple-api-dev.github.io/forums-client-flutter/">Live demo &rarr;</a><br>
       <a href="https://github.com/simple-api-dev/forums-client-flutter">Demo source on GitHub &rarr;</a>
     </div>
     <div class="card">
       <h3>Reviews</h3>
       <p>Reviews and comments for any product or page. Good for rating widgets and comment sections.</p>
-      <a href="https://reviews.simpleapi.dev/api/documentation">Reviews API docs &rarr;</a><br>
+      <a href="https://reviews.simpleapi.dev/docs">Reviews API docs &rarr;</a><br>
       <a href="https://simple-api-dev.github.io/reviews-client/">Live demo &rarr;</a><br>
       <a href="https://github.com/simple-api-dev/reviews-client">Demo source on GitHub &rarr;</a>
     </div>
     <div class="card">
       <h3>Auth</h3>
-      <p>User accounts and login: register, log in, reset passwords and verify emails, for your own app or another SimpleApi API.</p>
-      <a href="https://auth.simpleapi.dev/api/documentation">Auth API docs &rarr;</a><br>
+      <p>User accounts and login: register, log in, reset passwords and verify emails, for your own app or another SimpleAPI service.</p>
+      <a href="https://auth.simpleapi.dev/docs">Auth API docs &rarr;</a><br>
       <a href="https://simple-api-dev.github.io/auth-client/">Live demo &rarr;</a><br>
       <a href="https://github.com/simple-api-dev/auth-client">Demo source on GitHub &rarr;</a>
     </div>
@@ -154,26 +173,34 @@
   <ol class="steps">
     <li>Send the key with every request as the <code>apikey</code> parameter. Forums also accepts it as an <code>APIKEY</code> header.</li>
     <li>Let your own users register and log in through the API. You get back a user token to send on later requests.</li>
-    <li>Need a key for another API, or want to turn one off? Use the <a href="https://keys.simpleapi.dev">key manager</a>. Each key works only for the API it was issued for.</li>
+    <li>Need a key for another API, or want to turn one off? Use the <a href="https://keys.simpleapi.dev/manage">key manager</a>. Each key works only for the API it was issued for.</li>
   </ol>
 </section>
 
 <section>
   <h2>Good to know</h2>
   <ul class="points">
-    <li>The free tier has limits. For example, Todos allows 100 todos per developer key and 25 per user.</li>
+    <li>The free tier has limits: 60 requests a minute per IP address and 25 users per key. Each API's docs list its other limits.</li>
     <li>This is a hobby-scale service meant for learning, so do not use it for production data or anything sensitive.</li>
     <li>Each API's docs page has the full list of endpoints, and you can try calls right from the page.</li>
   </ul>
 </section>
 
 <footer>
-  SimpleApi &middot;
-  <a href="https://todos.simpleapi.dev/api/documentation">Todos</a> &middot;
-  <a href="https://forums.simpleapi.dev/api/documentation">Forums</a> &middot;
-  <a href="https://reviews.simpleapi.dev/api/documentation">Reviews</a> &middot;
-  <a href="https://auth.simpleapi.dev/api/documentation">Auth</a> &middot;
-  <a href="https://github.com/simple-api-dev">GitHub</a>
+  <p>&copy; 2026 SimpleAPI</p>
+  <p>
+    <a href="https://todos.simpleapi.dev/privacy">Privacy</a>
+    <a href="https://todos.simpleapi.dev/legal">Terms</a>
+    <a href="https://github.com/simple-api-dev">GitHub</a>
+    <a href="https://github.com/simple-api-dev/home/issues">Feedback</a>
+  </p>
+  <p>
+    <a href="https://simpleapi.dev">Home</a>
+    <a href="https://todos.simpleapi.dev">Todos API</a>
+    <a href="https://forums.simpleapi.dev">Forums API</a>
+    <a href="https://reviews.simpleapi.dev">Reviews API</a>
+    <a href="https://auth.simpleapi.dev">Auth API</a>
+  </p>
 </footer>
 
 </div>
@@ -191,7 +218,7 @@
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify(body)
     }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, data: d }; });
+      return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, status: r.status, data: d }; });
     });
   }
   function problem(d) {
@@ -204,7 +231,8 @@
     e.preventDefault();
     email = $("email").value.trim();
     say("Sending your code...");
-    post("request?access=" + encodeURIComponent($("access").value.trim()), { email: email, product_url: PRODUCT }).then(function (r) {
+    post("request?access=" + encodeURIComponent($("access").value.trim()), { /* ACCESS-GATE */ email: email, product_url: PRODUCT }).then(function (r) {
+      if (r.status === 403 && !(r.data && r.data.message)) { say("That access code was not accepted. Check it and try again.", true); return; } /* ACCESS-GATE */
       if (!r.ok) { say(problem(r.data), true); return; }
       $("step-email").hidden = true;
       $("step-code").hidden = false;
