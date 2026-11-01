@@ -10,11 +10,11 @@ Static page for https://simpleapi.dev and https://www.simpleapi.dev. One HTML fi
 
 ## Deploying
 
-The page is served from `/var/www/simpleapi/home/public/` on the production server. Copy `index.html` and the icon files there.
+The page is served from `/var/www/simpleapi/home/public/` on the production server. Copy `index.html`, `404.html` and the icon files there.
 
 ```
-scp index.html favicon.ico icon-*.png og-image.png <user>@<server>:/tmp/
-ssh <user>@<server> 'cd /tmp && sudo install -o root -g www-data -m 644 index.html favicon.ico icon-*.png og-image.png /var/www/simpleapi/home/public/'
+scp index.html 404.html favicon.ico icon-*.png og-image.png <user>@<server>:/tmp/
+ssh <user>@<server> 'cd /tmp && sudo install -o root -g www-data -m 644 index.html 404.html favicon.ico icon-*.png og-image.png /var/www/simpleapi/home/public/'
 ```
 
 The certificate is the certbot cert named `simpleapi.dev` (covers `simpleapi.dev` and `www.simpleapi.dev`) and renews automatically.
