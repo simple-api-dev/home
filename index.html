@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SimpleAPI | Free REST APIs for tutorials and practice projects</title>
-<meta name="description" content="Free hosted REST APIs for tutorials and learning projects: Todos, Forums, Reviews and Auth, with real user login and data that persists.">
+<meta name="description" content="Free hosted REST APIs for tutorials and practice projects: Todos, Forums, Reviews and Auth, with real user login and data that persists.">
 <link rel="canonical" href="https://simpleapi.dev/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SimpleAPI">
 <meta property="og:title" content="SimpleAPI | Free REST APIs for tutorials and practice projects">
-<meta property="og:description" content="Free hosted REST APIs for tutorials and learning projects: Todos, Forums, Reviews and Auth, with real user login and data that persists.">
+<meta property="og:description" content="Free hosted REST APIs for tutorials and practice projects: Todos, Forums, Reviews and Auth, with real user login and data that persists.">
 <meta property="og:url" content="https://simpleapi.dev/">
 <meta property="og:image" content="https://simpleapi.dev/og-image.png">
 <meta name="theme-color" content="#0066cc">
@@ -89,27 +89,27 @@
 <header>
   <h1>A real backend for your tutorials and practice projects.</h1>
   <p class="lead">
-    SimpleAPI is a set of free, hosted REST APIs with real user registration and login and
-    data that persists. Learn a front-end framework against an actual API, without setting up a
+    SimpleAPI is a set of free hosted REST APIs with real user registration and login, and
+    data that persists. Learn a front-end framework against a real API, without setting up a
     server or a Firebase account.
   </p>
   <div class="try" id="try">
     <h2>Try the Todos API in under a minute</h2>
-    <p>Enter your email, type the 6 digit code we send you, and your free API key appears right here.</p>
+    <p>Enter your email, type the 6-digit code we send you, and your free API key appears right here.</p>
     <form id="step-email">
       <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
       <div class="g-recaptcha" data-sitekey="6LeOiAouAAAAALsedZWt4li_kZWwUiP28cbED63b"></div>
       <button type="submit">Email me a code</button>
     </form>
     <form id="step-code" hidden>
-      <input type="text" id="code" placeholder="6 digit code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <input type="text" id="code" placeholder="6-digit code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
       <button type="submit">Show my key</button>
       <button type="button" class="plain" id="back">Back</button>
     </form>
     <div id="step-key" hidden>
       <div class="keybox"><code id="key"></code><button type="button" id="copy">Copy</button></div>
       <pre id="example"></pre>
-      <p>That's it. Next: <a href="https://todos.simpleapi.dev/docs">read the Todos docs</a>, or
+      <p>Next: <a href="https://todos.simpleapi.dev/docs">read the Todos API docs</a>, or
         <a href="https://keys.simpleapi.dev/manage">get keys for the other APIs and manage them</a>.</p>
     </div>
     <p class="msg" id="msg" role="status"></p>
@@ -123,13 +123,13 @@
 <section>
   <h2>Why it exists</h2>
   <p>
-    Most "todo app" tutorials either have no backend at all or lean on a vendor SDK, so they never
-    show how login, tokens and per-user data work. SimpleAPI gives you plain REST endpoints you can
-    call from any language or framework, with the authentication part included.
+    Most todo app tutorials have no backend at all or lean on a vendor SDK, so they never show how
+    login, tokens and per-user data work. SimpleAPI gives you plain REST endpoints you can call from
+    any language or framework, with login included.
   </p>
   <ul class="points">
     <li><strong>Plain REST and JSON.</strong> No SDK or vendor account needed. Use fetch, axios, curl, or whatever you are learning.</li>
-    <li><strong>Real authentication.</strong> Your app's users can register, log in and log out, and each gets a token.</li>
+    <li><strong>Real login.</strong> Your app's users can register, log in and log out, and each gets a token.</li>
     <li><strong>Your own data.</strong> Everything you create is scoped to your API key, so other developers do not see it.</li>
     <li><strong>Documented.</strong> Every API has interactive Swagger docs where you can try each call.</li>
   </ul>
@@ -140,7 +140,7 @@
   <div class="grid">
     <div class="card">
       <h3>Todos</h3>
-      <p>Users and todo items. The classic tutorial project with sign-up, login and a private list per user.</p>
+      <p>Users and todo items. The classic tutorial project with registration, login and a private list per user.</p>
       <a href="https://todos.simpleapi.dev/docs">Todos API docs &rarr;</a><br>
       <a href="https://simple-api-dev.github.io/todos-client/" target="_blank" rel="noopener">Live demo &rarr;</a><br>
       <a href="https://github.com/simple-api-dev/todos-client">Demo source on GitHub &rarr;</a>
@@ -174,7 +174,7 @@
   <ol class="steps">
     <li>Send the key with every request as the <code>apikey</code> parameter or an <code>APIKEY</code> header.</li>
     <li>Let your own users register and log in through the API. You get back a user token to send on later requests.</li>
-    <li>Need a key for another API, or want to turn one off? Use the <a href="https://keys.simpleapi.dev/manage">key manager</a>. Each key works only for the API it was issued for.</li>
+    <li>Need a key for another API, or want to rotate or delete one? Use the <a href="https://keys.simpleapi.dev/manage">key manager</a>. Each key works only for the API it was issued for.</li>
   </ol>
 </section>
 
@@ -183,7 +183,6 @@
   <ul class="points">
     <li>The free tier has limits: 60 requests a minute per IP address and 25 users per key. Each API's docs list its other limits.</li>
     <li>This is a hobby-scale service meant for learning, so do not use it for production data or anything sensitive.</li>
-    <li>Each API's docs page has the full list of endpoints, and you can try calls right from the page.</li>
   </ul>
 </section>
 
@@ -191,7 +190,7 @@
   <p>&copy; 2026 SimpleAPI</p>
   <p>
     <a href="https://todos.simpleapi.dev/privacy">Privacy</a>
-    <a href="https://todos.simpleapi.dev/legal">Terms</a>
+    <a href="https://todos.simpleapi.dev/terms">Terms</a>
     <a href="https://github.com/simple-api-dev">GitHub</a>
     <a href="https://github.com/simple-api-dev/home/issues">Feedback</a>
   </p>
