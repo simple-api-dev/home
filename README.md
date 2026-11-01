@@ -1,14 +1,12 @@
-Source of the simpleapi.dev home page. Bug reports and feedback for all SimpleAPI services go in Issues.
-
 # simpleapi.dev home page
 
-Static welcome page for https://simpleapi.dev and https://www.simpleapi.dev. One HTML file with inline CSS and JS, no build step, plus the shared icons.
+Source of the simpleapi.dev home page. Bug reports and feedback for all SimpleAPI services go in [Issues](https://github.com/simple-api-dev/home/issues).
+
+Static page for https://simpleapi.dev and https://www.simpleapi.dev. One HTML file with inline CSS and JS, no build step, plus the shared icons.
 
 - `index.html` is the whole page. The hero form calls `keys.simpleapi.dev/api/keys/request` then `/verify` to hand out a first Todos key.
 - `favicon.ico`, `icon-*.png` and `og-image.png` are the shared SimpleAPI brand assets.
 - `nginx/simpleapi.dev` is the vhost as deployed on the production server (`/etc/nginx/sites-available/simpleapi.dev`).
-
-The hero form has a temporary "Access code" field for the private preview. To remove it, search `index.html` for `ACCESS-GATE`.
 
 ## Deploying
 
@@ -23,4 +21,4 @@ The certificate is the certbot cert named `simpleapi.dev` (covers `simpleapi.dev
 
 ## License
 
-MIT, see `LICENSE`.
+[MIT](LICENSE)
