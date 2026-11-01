@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found | SimpleAPI</title>
+<meta name="description" content="This page does not exist.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0066cc">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icon-16.png">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<style>
+  :root {
+    --bg: #fafaf7; --fg: #1d1f23; --muted: #5d6470; --card: #fff; --line: #e4e4de;
+    --accent: #0066cc; --accent-hover: #0052a3; --link: #0066cc; --accent-fg: #fff; --code-bg: #f1f1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a; --fg: #e8e9ec; --muted: #9aa1ad; --card: #1c1f25; --line: #2b2f37;
+      --link: #6aa9f0; --accent-fg: #fff; --code-bg: #20242c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--link); }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 64px 0 40px; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin: 0 0 16px; }
+  h2 { font-size: 1.4rem; margin: 48px 0 16px; }
+  p { margin: 0 0 16px; }
+  .lead { font-size: 1.15rem; color: var(--muted); max-width: 640px; }
+  .btn {
+    display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 600;
+    text-decoration: none; background: var(--accent); color: var(--accent-fg);
+  }
+  .btn:hover { background: var(--accent-hover); }
+  .btn.alt { background: transparent; color: var(--link); border: 1px solid var(--link); }
+  .btn.alt:hover { background: var(--code-bg); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .card h3 { margin: 0 0 8px; font-size: 1.1rem; }
+  .card p { color: var(--muted); font-size: .95rem; }
+  .card a { color: var(--link); font-weight: 600; text-decoration: none; }
+  .card a:hover { text-decoration: underline; }
+  ul.points { padding-left: 20px; margin: 0 0 16px; }
+  ul.points li { margin-bottom: 6px; }
+  ol.steps { padding-left: 20px; }
+  ol.steps li { margin-bottom: 10px; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+  code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; }
+  pre { background: var(--code-bg); padding: 16px; border-radius: 8px; overflow-x: auto; margin: 0 0 16px; }
+  .try { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-top: 28px; max-width: 560px; }
+  .try h2 { margin: 0 0 4px; font-size: 1.15rem; }
+  .try p { color: var(--muted); font-size: .95rem; margin: 0 0 12px; }
+  .try form { display: flex; flex-wrap: wrap; gap: 8px; }
+  .try .g-recaptcha { flex: 1 1 100%; }
+  @media (max-width: 380px) { .try .g-recaptcha { transform: scale(.85); transform-origin: 0 0; height: 66px; } }
+  .try input { flex: 1 1 200px; padding: 10px 12px; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  .try button { padding: 10px 18px; font: inherit; font-weight: 600; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-fg); cursor: pointer; }
+  .try button:hover { background: var(--accent-hover); }
+  .try button.plain { background: transparent; color: var(--link); border: 1px solid var(--link); }
+  .try .msg { margin: 10px 0 0; font-size: .9rem; color: var(--muted); }
+  .try .msg.err { color: #b3261e; }
+  @media (prefers-color-scheme: dark) { .try .msg.err { color: #f2877f; } }
+  .try .keybox { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .try .keybox code { flex: 1 1 260px; padding: 10px 12px; word-break: break-all; }
+  .try a { color: var(--link); }
+  [hidden] { display: none !important; }
+  footer { margin: 64px 0 32px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  footer a { color: var(--muted); display: inline-block; margin-right: 14px; }
+  footer p { margin: 0 0 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Page not found</h1>
+  <p>There is nothing at this address.</p>
+  <p><a class="btn" href="/">SimpleAPI home</a></p>
+</header>
+<footer>
+  <p>&copy; 2026 SimpleAPI</p>
+  <p>
+    <a href="https://todos.simpleapi.dev/privacy">Privacy</a>
+    <a href="https://todos.simpleapi.dev/terms">Terms</a>
+    <a href="https://github.com/simple-api-dev">GitHub</a>
+    <a href="https://github.com/simple-api-dev/home/issues">Feedback</a>
+  </p>
+  <p>
+    <a href="https://simpleapi.dev">Home</a>
+    <a href="https://todos.simpleapi.dev">Todos API</a>
+    <a href="https://forums.simpleapi.dev">Forums API</a>
+    <a href="https://reviews.simpleapi.dev">Reviews API</a>
+    <a href="https://auth.simpleapi.dev">Auth API</a>
+  </p>
+</footer>
+</div>
+</body>
+</html>
