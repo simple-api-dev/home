@@ -1,0 +1,37 @@
+name: Uptime
+
+# Checks from outside the server that every SimpleAPI site and API answers. The server checks itself every 5 minutes
+# and emails the owner, but it cannot report its own outage; this run can. A failed run emails the owner through
+# GitHub's notifications for failed workflows.
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check every site and API
+        run: |
+          fail=0
+          check() { # url code [text]
+            out=$(curl -s -m 20 --retry 2 --retry-delay 15 -w '\n%{http_code}' "$1") || true
+            got=${out##*$'\n'}; body=${out%$'\n'*}
+            if [ "$got" = "$2" ] && { [ -z "${3:-}" ] || grep -qF -- "$3" <<<"$body"; }; then
+              echo "ok    $1"
+            else
+              echo "::error::$1 answered ${got:-nothing}, expected $2${3:+ with \"$3\"}"; fail=1
+            fi
+          }
+          check https://simpleapi.dev/ 200
+          check https://keys.simpleapi.dev/ 200
+          check https://keys.simpleapi.dev/api/products 200 '"slug"'
+          for a in todos forums reviews auth notes store; do
+            check "https://$a.simpleapi.dev/" 200
+            check "https://$a.simpleapi.dev/api/uptime-check" 404 'This route does not exist.'
+          done
+          exit $fail

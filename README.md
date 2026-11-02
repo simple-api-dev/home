@@ -19,6 +19,10 @@ ssh <user>@<server> 'cd /tmp && sudo install -o root -g www-data -m 644 index.ht
 
 The certificate is the certbot cert named `simpleapi.dev` (covers `simpleapi.dev` and `www.simpleapi.dev`) and renews automatically.
 
+## Uptime check
+
+`.github/workflows/uptime.yml` checks every site and API from GitHub every 15 minutes. A failed run emails the owner through GitHub's notifications for failed workflows. The production server also checks itself every 5 minutes and emails the owner, but only this check notices when the whole server is down. GitHub turns off scheduled workflows in a public repository after 60 days without commits and emails a warning first; re-enable it under Actions.
+
 ## License
 
 [MIT](LICENSE)
